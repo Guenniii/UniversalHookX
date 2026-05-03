@@ -191,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="src\dependencies\imgui\imgui_impl_dx9.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\dependencies\imgui\imgui_impl_vulkan.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_widgets.cpp" />
@@ -200,15 +201,6 @@
     <ClCompile Include="src\dependencies\minhook\hook.c" />
     <ClCompile Include="src\dependencies\minhook\trampoline.c" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\hooks\backend\dx11\hook_directx11.cpp" />
-    <ClCompile Include="src\hooks\backend\dx12\hook_directx12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="src\hooks\backend\dx9\hook_directx9.cpp" />
-    <ClCompile Include="src\hooks\backend\dx10\hook_directx10.cpp" />
     <ClCompile Include="src\hooks\backend\opengl\hook_opengl.cpp" />
     <ClCompile Include="src\hooks\backend\vulkan\hook_vulkan.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
@@ -231,6 +223,7 @@
     <ClInclude Include="src\dependencies\imgui\imgui_impl_dx9.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\dependencies\imgui\imgui_impl_vulkan.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_win32.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="src\dependencies\imgui\imstb_rectpack.h" />
@@ -244,10 +237,6 @@
     <ClInclude Include="src\dependencies\minhook\hde\table64.h" />
     <ClInclude Include="src\dependencies\minhook\MinHook.h" />
     <ClInclude Include="src\dependencies\minhook\trampoline.h" />
-    <ClInclude Include="src\hooks\backend\dx11\hook_directx11.hpp" />
-    <ClInclude Include="src\hooks\backend\dx12\hook_directx12.hpp" />
-    <ClInclude Include="src\hooks\backend\dx9\hook_directx9.hpp" />
-    <ClInclude Include="src\hooks\backend\dx10\hook_directx10.hpp" />
     <ClInclude Include="src\hooks\backend\opengl\hook_opengl.hpp" />
     <ClInclude Include="src\hooks\backend\vulkan\hook_vulkan.hpp" />
     <ClInclude Include="src\hooks\hooks.hpp" />
