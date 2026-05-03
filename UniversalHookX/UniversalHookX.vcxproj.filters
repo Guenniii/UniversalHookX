@@ -8,7 +8,6 @@
     <ClCompile Include="src\dependencies\imgui\imgui.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx9.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_tables.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_widgets.cpp" />
@@ -17,14 +16,15 @@
     <ClCompile Include="src\dependencies\minhook\buffer.c" />
     <ClCompile Include="src\dependencies\minhook\hook.c" />
     <ClCompile Include="src\dependencies\minhook\trampoline.c" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx10.cpp" />
     <ClCompile Include="src\hooks\backend\opengl\hook_opengl.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\menu\menu.cpp" />
     <ClCompile Include="src\hooks\backend\vulkan\hook_vulkan.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_vulkan.cpp" />
+    <ClCompile Include="src\auth\Authclient.cpp" />
+    <ClCompile Include="src\auth\Hash.cpp" />
+    <ClCompile Include="src\auth\HWID.cpp" />
+    <ClCompile Include="src\modules\combat\cw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\console\console.hpp" />
@@ -32,7 +32,6 @@
     <ClInclude Include="src\utils\utils.hpp" />
     <ClInclude Include="src\dependencies\imgui\imconfig.h" />
     <ClInclude Include="src\dependencies\imgui\imgui.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx9.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_win32.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="src\dependencies\imgui\imstb_rectpack.h" />
@@ -46,9 +45,6 @@
     <ClInclude Include="src\dependencies\minhook\buffer.h" />
     <ClInclude Include="src\dependencies\minhook\MinHook.h" />
     <ClInclude Include="src\dependencies\minhook\trampoline.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx12.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx10.h" />
     <ClInclude Include="src\hooks\backend\opengl\hook_opengl.hpp" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3_loader.h" />
@@ -56,5 +52,9 @@
     <ClInclude Include="src\menu\menu.hpp" />
     <ClInclude Include="src\hooks\backend\vulkan\hook_vulkan.hpp" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_vulkan.h" />
+    <ClInclude Include="src\auth\Authclient.h" />
+    <ClInclude Include="src\auth\Hash.h" />
+    <ClInclude Include="src\auth\HWID.h" />
+    <ClInclude Include="src\dependencies\images\bytearray.h" />
   </ItemGroup>
 </Project>

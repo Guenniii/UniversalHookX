@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>.\bin\</OutDir>
     <IntDir>.\obj\$(Configuration) $(Platform)\</IntDir>
-    <TargetName>$(ProjectName) $(Configuration) $(Platform)</TargetName>
+    <TargetName>fusion-plus</TargetName>
     <IncludePath>$(VULKAN_SDK)\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VULKAN_SDK)\Lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
@@ -173,23 +173,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\auth\Authclient.cpp" />
+    <ClCompile Include="src\auth\Hash.cpp" />
+    <ClCompile Include="src\auth\HWID.cpp" />
     <ClCompile Include="src\console\console.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx10.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx12.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </ExcludedFromBuild>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">IMGUI_DISABLE_WIN32_DEFAULT_IME_FUNCTIONS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <ClCompile Include="src\dependencies\imgui\imgui_impl_dx9.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_vulkan.cpp" />
     <ClCompile Include="src\dependencies\imgui\imgui_impl_win32.cpp" />
@@ -205,22 +195,18 @@
     <ClCompile Include="src\hooks\backend\vulkan\hook_vulkan.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="src\menu\menu.cpp" />
+    <ClCompile Include="src\modules\combat\cw.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\auth\Authclient.h" />
+    <ClInclude Include="src\auth\Hash.h" />
+    <ClInclude Include="src\auth\HWID.h" />
     <ClInclude Include="src\backend.hpp" />
     <ClInclude Include="src\console\console.hpp" />
+    <ClInclude Include="src\dependencies\images\bytearray.h" />
     <ClInclude Include="src\dependencies\imgui\imconfig.h" />
     <ClInclude Include="src\dependencies\imgui\imgui.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx10.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx12.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="src\dependencies\imgui\imgui_impl_dx9.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\dependencies\imgui\imgui_impl_vulkan.h" />
