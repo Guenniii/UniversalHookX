@@ -6,13 +6,23 @@
 
 #include "hooks/hooks.hpp"
 #include "utils/utils.hpp"
-
+#include "dependencies/jni/jni.h"
 #include "dependencies/minhook/MinHook.h"
+#include "utils/sdk/java.hpp"
 
 DWORD WINAPI OnProcessAttach(LPVOID lpParam);
 DWORD WINAPI OnProcessDetach(LPVOID lpParam);
 
+
+
+
+
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
+
+    static FILE* p_file{nullptr};
+    static std::thread main_thread;
+
     if (fdwReason == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(hinstDLL);
 
@@ -31,11 +41,12 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
 
 DWORD WINAPI OnProcessAttach(LPVOID lpParam) {
     Console::Alloc( );
+    Java::Init( );
     LOG("[+] Rendering backend: %s\n", U::RenderingBackendToStr( ));
     if (U::GetRenderingBackend( ) == NONE) {
         LOG("[!] Looks like you forgot to set a backend. Will unload after pressing enter...");
         std::cin.get( );
-
+    
         FreeLibraryAndExitThread(reinterpret_cast<HMODULE>(lpParam), 0);
         return 0;
     }

@@ -25,6 +25,8 @@
     <ClCompile Include="src\auth\Hash.cpp" />
     <ClCompile Include="src\auth\HWID.cpp" />
     <ClCompile Include="src\modules\combat\cw.cpp" />
+    <ClCompile Include="src\utils\sdk\java.cpp" />
+    <ClCompile Include="src\utils\imageloader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\console\console.hpp" />
@@ -56,5 +58,18 @@
     <ClInclude Include="src\auth\Hash.h" />
     <ClInclude Include="src\auth\HWID.h" />
     <ClInclude Include="src\dependencies\images\bytearray.h" />
+    <ClInclude Include="src\dependencies\jni\classfile_constants.h" />
+    <ClInclude Include="src\dependencies\jni\jawt.h" />
+    <ClInclude Include="src\dependencies\jni\jawt_md.h" />
+    <ClInclude Include="src\dependencies\jni\jdwpTransport.h" />
+    <ClInclude Include="src\dependencies\jni\jni.h" />
+    <ClInclude Include="src\dependencies\jni\jni_md.h" />
+    <ClInclude Include="src\dependencies\jni\jvmti.h" />
+    <ClInclude Include="src\dependencies\jni\jvmticmlr.h" />
+    <ClInclude Include="src\utils\sdk\java.hpp" />
+    <ClInclude Include="src\utils\imageloader.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="src\dependencies\jni\jvm.lib" />
   </ItemGroup>
 </Project>

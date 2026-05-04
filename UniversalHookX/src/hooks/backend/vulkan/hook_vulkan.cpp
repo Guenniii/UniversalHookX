@@ -20,11 +20,14 @@
 #include "../../hooks.hpp"
 
 #include "../../../menu/menu.hpp"
+#include "../../../utils/imageloader.hpp"
 
-static VkAllocationCallbacks* g_Allocator = NULL;
-static VkInstance g_Instance = VK_NULL_HANDLE;
-static VkPhysicalDevice g_PhysicalDevice = VK_NULL_HANDLE;
-static VkDevice g_FakeDevice = VK_NULL_HANDLE, g_Device = VK_NULL_HANDLE;
+VkAllocationCallbacks* g_Allocator = NULL;
+VkInstance g_Instance = VK_NULL_HANDLE;
+VkPhysicalDevice g_PhysicalDevice = VK_NULL_HANDLE;
+VkDevice g_FakeDevice = VK_NULL_HANDLE, g_Device = VK_NULL_HANDLE;
+VkQueue g_Queue = VK_NULL_HANDLE;
+VkCommandPool g_CommandPool = VK_NULL_HANDLE;
 
 static uint32_t g_QueueFamily = (uint32_t)-1;
 static std::vector<VkQueueFamilyProperties> g_QueueFamilies;
@@ -346,6 +349,7 @@ namespace VK {
             MH_EnableHook(fnQueuePresentKHR);
             MH_EnableHook(fnCreateSwapchainKHR);
         }
+
     }
 
     void Unhook( ) {
@@ -415,9 +419,12 @@ static void CleanupDeviceVulkan( ) {
     g_Device = NULL;
 }
 
+
+
 static void RenderImGui_Vulkan(VkQueue queue, const VkPresentInfoKHR* pPresentInfo) {
     if (!g_Device || H::bShuttingDown)
         return;
+    
 
     VkQueue graphicQueue = VK_NULL_HANDLE;
     const bool queueSupportsGraphic = DoesQueueSupportGraphic(queue, &graphicQueue);
@@ -478,6 +485,11 @@ static void RenderImGui_Vulkan(VkQueue queue, const VkPresentInfoKHR* pPresentIn
             ImGui_ImplVulkan_Init(&init_info, g_RenderPass);
 
             ImGui_ImplVulkan_CreateFontsTexture(fd->CommandBuffer);
+
+            // ✅ HIER, nach Init:
+            g_Queue = graphicQueue;          // sicherstellen dass g_Queue gesetzt ist
+            g_CommandPool = fd->CommandPool; // CommandPool aus dem Frame verwenden
+            Menu::Images( );
         }
 
         ImGui_ImplVulkan_NewFrame( );

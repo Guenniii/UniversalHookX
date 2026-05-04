@@ -1,12 +1,12 @@
 #include "menu.hpp"
 #include <thread>
-
+#include "../console/console.hpp"
 // ImGui
 #include "../dependencies/imgui/imgui.h"
 #include "../dependencies/imgui/imgui_impl_win32.h"
 #include "../dependencies/imgui/imgui_internal.h"
 #include "../dependencies/imgui/imgui_impl_vulkan.h"
-
+#include "../utils/imageloader.hpp"
 //auth
 #include "../auth/Authclient.h"
 #include "../auth/HWID.h"
@@ -42,6 +42,23 @@ static bool logged_in = false;
 ImFont* tab_title;
 ImFont* font_icon;
 ImFont* poppins;
+
+
+static MyTextureData logo;
+static MyTextureData userlogo;
+
+void Menu::Images()
+
+{
+    static bool g_TextureInitialized = false;
+    if (!g_TextureInitialized) {
+        LoadTextureFromMemory(logo_two, sizeof(logo_two), &logo);
+        LoadTextureFromMemory(user, sizeof(user), &userlogo);
+        g_TextureInitialized = true;
+        LOG("[+] Vulkan: Texture loaded.\n");
+    }
+}
+
 
 namespace Menu {
 
@@ -179,6 +196,8 @@ namespace Menu {
         io.IniFilename = io.LogFilename = nullptr;
 
          SetupImGuiStyle( );  // Fonts & Style einmalig laden
+        
+
     }
 
 
@@ -224,7 +243,7 @@ namespace Menu {
         draw->AddRect(ImVec2(pos.x + 160, pos.y), ImVec2(pos.x + 838, pos.y + 535), ImColor(50, 50, 50, int(255 * ImGui::GetStyle( ).Alpha)), 10.f, ImDrawCornerFlags_Right, 1);    // right bg
 
         ImGui::SetCursorPos(ImVec2(36, -7));
-    //    ImGui::Image((void*)(intptr_t)GlContext.LogoID, ImVec2(85, 98)); // logo 2
+        ImGui::Image((ImTextureID)logo.DS, ImVec2(85, 98)); // logo 2
     }
 
     void user_info( ) {
@@ -244,12 +263,14 @@ namespace Menu {
         draw->AddText(ImVec2(pos.x + 49, pos.y + 503), ImColor(105, 105, 105, int(255 * ImGui::GetStyle( ).Alpha)), g_licenseDays.c_str( ));
         draw->AddText(ImVec2(pos.x + 59, pos.y + 503), ImColor(105, 105, 105, int(255 * ImGui::GetStyle( ).Alpha)), days.c_str( ));
         ImGui::SetCursorPos(ImVec2(15, 490));
-        // User-Foto (28x28) mit Bild-Icon
-    //    ImGui::Image((void*)(intptr_t)GlContext.UserID, ImVec2(28, 28));
+        ImGui::Image((ImTextureID)userlogo.DS, ImVec2(28, 28));
+        ;
     }
 
 
     void login_tab( ) {
+
+        
 
         auto draw = ImGui::GetWindowDrawList( );
         ImVec2 pos = ImGui::GetWindowPos( );
@@ -261,8 +282,7 @@ namespace Menu {
 
         // Title
         ImGui::SetCursorPos(ImVec2(size.x / 2 - 40, 40));
-        //   ImGui::SetCursorPos(ImVec2(36, -7));
-        //    ImGui::Image((void*)(intptr_t)GlContext.LogoID, ImVec2(85, 98));
+        ImGui::Image((ImTextureID)logo.DS, ImVec2(85, 98));
         // Username input
         ImGui::SetCursorPos(ImVec2(size.x / 2 - 120, 140));
         ImGui::SetNextItemWidth(240);
@@ -463,7 +483,7 @@ namespace Menu {
                 if (login_alpha > 0.01f) {
                     ImGui::SetNextWindowSize(ImVec2(838 * 1.0f, 535 * 1.0f));
                     ImGui::PushStyleVar(ImGuiStyleVar_Alpha, login_alpha);
-                    ImGui::Begin("Login", NULL, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground);
+                    ImGui::Begin("Login", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground);
                     {
                         login_tab( );
                         Particles( );

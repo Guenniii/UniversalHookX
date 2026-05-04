@@ -3,7 +3,7 @@
 #include <thread>
 
 #include "hooks.hpp"
-
+#include "../dependencies/imgui/imgui.h"
 
 #include "backend/opengl/hook_opengl.hpp"
 #include "backend/vulkan/hook_vulkan.hpp"
@@ -43,13 +43,18 @@ static LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
     if (uMsg == WM_KEYDOWN) {
         if (wParam == VK_INSERT) {
             Menu::bShowMenu = !Menu::bShowMenu;
+
+            // Cursor sichtbar/unsichtbar beim Toggle
+            ImGuiIO& io = ImGui::GetIO( );
+            io.MouseDrawCursor = Menu::bShowMenu;
+
             return 0;
         } else if (wParam == VK_HOME) {
             HANDLE hHandle = CreateThread(NULL, 0, ReinitializeGraphicalHooks, NULL, 0, NULL);
             if (hHandle != NULL)
                 CloseHandle(hHandle);
             return 0;
-        } else if (wParam == VK_END) {
+        } else if (wParam == VK_DELETE) {
             H::bShuttingDown = true;
             U::UnloadDLL( );
             return 0;
@@ -62,12 +67,31 @@ static LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
     LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     if (Menu::bShowMenu) {
-        ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+        // Rückgabewert prüfen - wenn ImGui den Input will, NICHT weiterleiten
+        if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+            return true;
 
-        // (Doesn't work for some games like 'Sid Meier's Civilization VI')
-        // Window may not maximize from taskbar because 'H::bShowDemoWindow' is set to true by default. ('hooks.hpp')
-        //
-        // return ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam) == 0;
+        // Zusätzlich: Maus-Events blockieren wenn ImGui sie haben will
+        ImGuiIO& io = ImGui::GetIO( );
+        switch (uMsg) {
+            case WM_LBUTTONDOWN:
+            case WM_LBUTTONUP:
+            case WM_RBUTTONDOWN:
+            case WM_RBUTTONUP:
+            case WM_MBUTTONDOWN:
+            case WM_MBUTTONUP:
+            case WM_MOUSEWHEEL:
+            case WM_MOUSEMOVE:
+                if (io.WantCaptureMouse)
+                    return 0;
+                break;
+            case WM_KEYDOWN:
+            case WM_KEYUP:
+            case WM_CHAR:
+                if (io.WantCaptureKeyboard)
+                    return 0;
+                break;
+        }
     }
 
     return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
