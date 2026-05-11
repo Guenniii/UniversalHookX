@@ -14,6 +14,8 @@
 
 #include "../dependencies/minhook/MinHook.h"
 
+#include "../modules/settings.hpp"
+
 static HWND g_hWindow = NULL;
 static std::mutex g_mReinitHooksGuard;
 
@@ -33,7 +35,6 @@ static DWORD WINAPI ReinitializeGraphicalHooks(LPVOID lpParam) {
     H::Init( );
 
     H::bShuttingDown = false;
-    Menu::bShowMenu = true;
 
     return 0;
 }
@@ -41,20 +42,35 @@ static DWORD WINAPI ReinitializeGraphicalHooks(LPVOID lpParam) {
 static WNDPROC oWndProc;
 static LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     if (uMsg == WM_KEYDOWN) {
-        if (wParam == VK_INSERT) {
-            Menu::bShowMenu = !Menu::bShowMenu;
+        if (wParam == VK_DELETE) {
+            Menu_Enabled = !Menu_Enabled;
 
-            // Cursor sichtbar/unsichtbar beim Toggle
             ImGuiIO& io = ImGui::GetIO( );
-            io.MouseDrawCursor = Menu::bShowMenu;
+            io.MouseDrawCursor = Menu_Enabled;
 
-            return 0;
-        } else if (wParam == VK_HOME) {
+            if (Menu_Enabled) {
+            //    ClipCursor(nullptr);
+                ShowCursor(TRUE);
+            } else {
+                ShowCursor(FALSE);
+            }
+            return 0; // ← return gehört INNERHALB der if (wParam == VK_DELETE) Klammer
+        } else if (wParam == VK_ESCAPE) { // ← neu
+            if (Menu_Enabled) {
+                Menu_Enabled = false;
+                ImGuiIO& io = ImGui::GetIO( );
+                io.MouseDrawCursor = false;
+                ShowCursor(FALSE);
+                return 0;
+            }
+        }
+        
+        else if (wParam == VK_HOME) {
             HANDLE hHandle = CreateThread(NULL, 0, ReinitializeGraphicalHooks, NULL, 0, NULL);
             if (hHandle != NULL)
                 CloseHandle(hHandle);
             return 0;
-        } else if (wParam == VK_DELETE) {
+        } else if (wParam == VK_PRIOR) {
             H::bShuttingDown = true;
             U::UnloadDLL( );
             return 0;
@@ -66,7 +82,7 @@ static LRESULT WINAPI WndProc(const HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
     }
 
     LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-    if (Menu::bShowMenu) {
+    if (Menu_Enabled) {
         // Rückgabewert prüfen - wenn ImGui den Input will, NICHT weiterleiten
         if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
             return true;
@@ -134,7 +150,7 @@ namespace Hooks {
 
         MH_DisableHook(MH_ALL_HOOKS);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
+        Menu_Enabled = false;
         RenderingBackend_t eRenderingBackend = U::GetRenderingBackend( );
         switch (eRenderingBackend) {
                 break;

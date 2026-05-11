@@ -21,6 +21,7 @@
 
 #include "../../../menu/menu.hpp"
 #include "../../../utils/imageloader.hpp"
+#include "../../../modules/settings.hpp"
 
 VkAllocationCallbacks* g_Allocator = NULL;
 VkInstance g_Instance = VK_NULL_HANDLE;
@@ -497,7 +498,6 @@ static void RenderImGui_Vulkan(VkQueue queue, const VkPresentInfoKHR* pPresentIn
         ImGui::NewFrame( );
 
         Menu::Render( );
-
         ImGui::Render( );
 
         // Record dear imgui primitives into command buffer

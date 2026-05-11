@@ -27,6 +27,8 @@
     <ClCompile Include="src\modules\combat\cw.cpp" />
     <ClCompile Include="src\utils\sdk\java.cpp" />
     <ClCompile Include="src\utils\imageloader.cpp" />
+    <ClCompile Include="src\Base.cpp" />
+    <ClCompile Include="src\modules\ModulManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\console\console.hpp" />
@@ -68,6 +70,21 @@
     <ClInclude Include="src\dependencies\jni\jvmticmlr.h" />
     <ClInclude Include="src\utils\sdk\java.hpp" />
     <ClInclude Include="src\utils\imageloader.hpp" />
+    <ClInclude Include="src\utils\sdk\CMinecraft.h" />
+    <ClInclude Include="src\modules\ModuleManager.hpp" />
+    <ClInclude Include="src\base.hpp" />
+    <ClInclude Include="src\modules\ModulBase.hpp" />
+    <ClInclude Include="src\modules\combat\cw.hpp" />
+    <ClInclude Include="src\modules\settings.hpp" />
+    <ClInclude Include="src\dependencies\mapper\JNIMapper.h" />
+    <ClInclude Include="src\dependencies\mapper\JNITypes.h" />
+    <ClInclude Include="src\dependencies\mapper\json.hpp" />
+    <ClInclude Include="src\dependencies\mapper\rsc.h" />
+    <ClInclude Include="src\modules\combat\CwCrystal.hpp" />
+    <ClInclude Include="src\modules\combat\AutoTotem.hpp" />
+    <ClInclude Include="src\modules\combat\Reach.hpp" />
+    <ClInclude Include="src\modules\movement\NoJumpDelay.hpp" />
+    <ClInclude Include="src\modules\movement\Sprint.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="src\dependencies\jni\jvm.lib" />

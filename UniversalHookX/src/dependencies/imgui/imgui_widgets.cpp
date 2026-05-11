@@ -8462,7 +8462,7 @@ bool ImGui::Rendertab(const char* icon, const char* label, bool selected)
     bool pressed = ImGui::ButtonBehavior(bb, id, &hovered, &held, NULL);
 
     if (hovered || held)
-        ImGui::SetMouseCursor(9);
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
     static std::map<ImGuiID, float> hover_animation;
     auto it_hover = hover_animation.find(id);

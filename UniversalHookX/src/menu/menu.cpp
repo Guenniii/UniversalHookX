@@ -14,6 +14,8 @@
 
 //Byte Arrays
 #include "../dependencies/images/bytearray.h"
+#include "../modules/settings.hpp"
+
 
 #pragma warning(disable : 4244)
 
@@ -36,7 +38,7 @@ static std::string responseText = "";
 static std::string g_licenseDays = "PERMANENT";
 static std::string g_licenseExpiry = "";
 static std::string days = "Days left";
-static bool logged_in = false;
+static bool logged_in = true;
 
 //Fonts
 ImFont* tab_title;
@@ -283,8 +285,9 @@ namespace Menu {
         // Title
         ImGui::SetCursorPos(ImVec2(size.x / 2 - 40, 40));
         ImGui::Image((ImTextureID)logo.DS, ImVec2(85, 98));
-        // Username input
-        ImGui::SetCursorPos(ImVec2(size.x / 2 - 120, 140));
+        // Username 
+
+        ImGui::SetCursorPos(ImVec2(size.x / 2 - 120, 150));
         ImGui::SetNextItemWidth(240);
         ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.125f, 0.125f, 0.125f, 1.0f));
         ImGui::InputText("##username", username, sizeof(username), ImGuiInputTextFlags_CharsNoBlank);
@@ -294,7 +297,7 @@ namespace Menu {
         draw->AddText(poppins, 18, ImVec2(pos.x + size.x / 2 - 120, pos.y + 130), ImColor(150, 150, 150, int(255 * login_alpha)), "Username");
 
         // Password input
-        ImGui::SetCursorPos(ImVec2(size.x / 2 - 120, 200));
+        ImGui::SetCursorPos(ImVec2(size.x / 2 - 120, 210));
         ImGui::SetNextItemWidth(240);
 
         ImGuiInputTextFlags flags = ImGuiInputTextFlags_Password;
@@ -402,9 +405,22 @@ namespace Menu {
     }
 
     void test_tab( ) {
-        auto draw = ImGui::GetWindowDrawList( );
-        ImVec2 pos = ImGui::GetWindowPos( );
-        draw->AddText(poppins, 17, ImVec2(pos.x + 13, pos.y + 81), ImColor(105, 105, 105, int(255 * ImGui::GetStyle( ).Alpha)), "Test Tab");
+        ImGui::SetCursorPos(ImVec2(169, 134));
+        ImGui::BeginChild("General", ImVec2(320, 240), true);
+        {
+
+            ImGui::Spacing( );
+            //    ImGui::SetCursorPosX(10);
+            ImGui::Checkbox("Enable CW", &CW_Enabled);
+            ImGui::SliderInt("Delay", &CW_Delay, 0, 4);
+            ImGui::Checkbox("Enable Reach", &Reach_Enabled);
+            ImGui::Checkbox("Enable AutoTotem", &AutoTotem_Enabled);
+            ImGui::Checkbox("Enable NoJumpDelay", &NoJumpDelay_Enabled);
+            ImGui::Checkbox("Enable AutoSprint", &AutoSprint_Enabled);
+        }
+        ImGui::EndChild( );
+        
+        
     }
 
     void RenderTabs( ) {
@@ -474,11 +490,14 @@ namespace Menu {
     }
 
     void Render( ) {
-        if (!bShowMenu)
-            return;
+    //    if (!Menu_Enabled)
+     //       return;
 
             if (!logged_in) {
+            if (Menu_Enabled)
                 login_alpha = ImClamp(login_alpha + (2.f * ImGui::GetIO( ).DeltaTime * 1.5f), 0.f, 1.f);
+            else
+                login_alpha = 0;
 
                 if (login_alpha > 0.01f) {
                     ImGui::SetNextWindowSize(ImVec2(838 * 1.0f, 535 * 1.0f));
@@ -493,7 +512,10 @@ namespace Menu {
                 }
             } 
             else {
-                open_alpha = ImClamp(open_alpha + (2.f * ImGui::GetIO( ).DeltaTime * (toggled ? 1.5f : -1.5f)), 0.f, 1.f);
+                if (Menu_Enabled)
+                    open_alpha = ImClamp(open_alpha + (2.f * ImGui::GetIO( ).DeltaTime * (toggled ? 1.5f : -1.5f)), 0.f, 1.f);
+                else
+                    open_alpha = 0;
 
                 if (open_alpha > 0.01f) {
                     ImGui::SetNextWindowSize(ImVec2(838 * 1.0f, 535 * 1.0f));

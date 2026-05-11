@@ -62,11 +62,11 @@ namespace Utils {
 		HWND hwnd = nullptr;
 		EnumWindows(::EnumWindowsCallback, reinterpret_cast<LPARAM>(&hwnd));
 
-		while (!hwnd) {
-			EnumWindows(::EnumWindowsCallback, reinterpret_cast<LPARAM>(&hwnd));
-			LOG("[!] Waiting for window to appear.\n");
-			std::this_thread::sleep_for(std::chrono::milliseconds(200));
-		}
+	//	while (!hwnd) {
+	//		EnumWindows(::EnumWindowsCallback, reinterpret_cast<LPARAM>(&hwnd));
+	//		LOG("[!] Waiting for window to appear.\n");
+	//		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	//	}
 
 		char name[128];
 		GetWindowTextA(hwnd, name, RTL_NUMBER_OF(name));
